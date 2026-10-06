@@ -1,0 +1,22 @@
+services:
+  kavita-prewarm:
+    build: .
+    restart: unless-stopped
+    environment:
+      KAVITA_URL: http://kavita:5000
+      KAVITA_API_KEY: ${KAVITA_API_KEY}
+      FORWARD_CHAPTERS: 2
+      INTERVAL_SECONDS: 300
+      COOLDOWN_SECONDS: 21600
+      HTTP_TIMEOUT_SECONDS: 30
+    volumes:
+      - kavita-prewarm-state:/state
+    # Attach the network where Kavita is reachable.
+    networks: [kavita]
+
+volumes:
+  kavita-prewarm-state:
+
+networks:
+  kavita:
+    external: true
